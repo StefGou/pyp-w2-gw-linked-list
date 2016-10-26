@@ -8,13 +8,13 @@ class Node(object):
         self.next = next
         
     def __str__(self):
-        if self.next == None:
+        if not self.next:
             return "Node({}) > /".format(self.elem)
         else:
             return "Node({}) > Node({})".format(self.elem, self.next.elem)
-        
+
     def __eq__(self, other):
         return self.elem == other.elem and self.next == other.next
 
     def __repr__(self):
-        return "I am a node and I am equal to {}".format(self.elem)
+        return str(self.elem)

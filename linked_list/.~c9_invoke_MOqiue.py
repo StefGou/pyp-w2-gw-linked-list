@@ -27,7 +27,7 @@ class LinkedList(AbstractLinkedList):
 
 
     def __iter__(self):
-
+        
         x = self.start
         
         while True:
@@ -39,33 +39,17 @@ class LinkedList(AbstractLinkedList):
             x = x.next
             
         raise StopIteration
-       
 
-    # THIS FUNCTION NEEDED TO RETURN A VALUE E.G. THE TEST_GET_ITEM TEST.
-    # BUT WE WERE USING IT TO RETURN A NODE IN THE POP FUNCTION.
-    # SO I WAS BREAKING THE POP WHEN I WAS MODIFYING __GETITEM__
-    # SO I CREATED THE GET_NODE FUNCTION BELOW IT. NOW EVERYTHING WORKS.
+
     def __getitem__(self, index):
         if index >= len(self):
             raise IndexError
-
-        wantnode = self.start
-        for i in range(index): 
-            wantnode = wantnode.next
-        return wantnode.elem #ADDED .ELEM TO RETURN THE VALUE
-    
-    
-    
-    def get_node(self, index):
-        if index >= len(self):
-            raise IndexError
-
-        wantnode = self.start
-        for i in range(index): 
-            wantnode = wantnode.next
-        return wantnode # THIS IS OUR ORIGINAL __GETITEM__ THAT RETURNS A NODE
-
         
+        wantnode = self.start
+        for i in range(index): 
+            wantnode = wantnode.next
+        return wantnode
+
     def __add__(self, other):
         #init new list
         n_list = LinkedList()
@@ -82,13 +66,16 @@ class LinkedList(AbstractLinkedList):
     def __iadd__(self, other):
         return self + other
     
+        #for element in other:
+           # self.append(element)
+        #return self
     
     def __ne__(self, other):
         return not self.__eq__(other)
 
     
     def __eq__(self, other):
-        
+        #return str(self) == str(other)
         s = self.start
         o = other.start
         
@@ -102,7 +89,7 @@ class LinkedList(AbstractLinkedList):
             else:
                return is_eq(a.next, b.next)
         
-        return is_eq(s, o)
+        #return is_eq(s, o)
     
     
     def append(self, elem):
@@ -115,7 +102,6 @@ class LinkedList(AbstractLinkedList):
             self.end = new_node
         
     def count(self):
-       
         if self.start:
             counter = 1
             tempNode = self.start
@@ -125,37 +111,42 @@ class LinkedList(AbstractLinkedList):
             return counter
         else:
             return 0
-       
-       
 
     def pop(self, index=None):
-     
         
-        if len(self) == 0:
-            raise IndexError
+        
 
-        if index != None:
-            if index >= len(self):
-                raise IndexError
-                
-        if index == 0 or len(self) == 1:
-            to_pop = self.start
-            self.start = self.start.next
-            return to_pop.elem
+        #if index == none, then pop last element
+        #change new last element to point to none
         
-        if index is None or index == len(self) - 1:
+        # [a, b, c]
+        # [[a, ->b], [b, -> c], [[c, ->None]]
+        # [[a, ->b], [b, ->None]]
+        
+        
+        #remove index (if its none its the last one)
+        return self[in]
+        
+        #pop(1)
+        # [a, b, c]
+        # [[a, ->b], [b, -> c], [c, -> None]]
+        # [[a, ->c], [b, -> None], [c, -> None]]
+        
+        #if index == None:
+        #    index = -1
+        #for e in self:
+        #    if e.next == self[index].elem:
+        #        e.next = self[index].next
+        #        
+        #        return self[index].elem
+        
+        if index is None:
             indextemp = len(self) - 1
-            to_pop = self.get_node(indextemp) 
-            self.end = self.get_node(indextemp-1)
+            to_pop = self.__getitem__(indextemp) 
+            self.end = self.__getitem__(indextemp-1)
             self.end.next = None
             return to_pop.elem
-        
-        
         else:
-            
-            to_pop = self.get_node(index)
-            #self.__getitem__(indextemp).next = self.__getitem__(len(self) + 1)
-            before_to_pop = self.get_node(index-1)
-            before_to_pop.next = to_pop.next
+            to_pop = self.__getitem__(index)
+            self.__getitem__(indextemp).next = self.__getitem__(len(self) + 1)
             return to_pop.elem
-
